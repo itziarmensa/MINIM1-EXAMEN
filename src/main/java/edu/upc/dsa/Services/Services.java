@@ -1,7 +1,7 @@
 package edu.upc.dsa.Services;
 
 import edu.upc.dsa.Domain.Covid19Manager;
-import edu.upc.dsa.Infraestructure.ManagerImpl;
+import edu.upc.dsa.Infraestructure.Covid19ManagerImpl;
 import io.swagger.annotations.Api;
 
 import javax.ws.rs.*;
@@ -13,7 +13,7 @@ public class Services {
     private Covid19Manager manager;
 
     public Services(){
-        this.manager = ManagerImpl.getInstance();
+        this.manager = Covid19ManagerImpl.getInstance();
 
         if(manager.size() == 0){
             //this.manager.registerUser("Alba", "Roma Gómez", "23/11/2001", credentials1);
