@@ -2,6 +2,7 @@ package edu.upc.dsa.Infraestructure;
 
 import edu.upc.dsa.Domain.Covid19Manager;
 import edu.upc.dsa.Domain.Entity.Exceptions.*;
+import edu.upc.dsa.Domain.Entity.Info.Informe;
 import edu.upc.dsa.Domain.Entity.Laboratorio;
 import edu.upc.dsa.Domain.Entity.Muestra;
 import edu.upc.dsa.Domain.Entity.Persona;
@@ -131,7 +132,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     }
 
     @Override
-    public void procesarMuestra(String idLab) throws LabNoExiste {
+    public Informe procesarMuestra(String idLab, String estado, String comentario) throws LabNoExiste {
         logger.info("Procesando muestra ...");
         if(getLabById(idLab) == null){
             logger.error("El laboratorio no existe.");
@@ -144,7 +145,10 @@ public class Covid19ManagerImpl implements Covid19Manager {
         Persona persona = getPersonaById(muestraProcesada.getIdPersona());
         List<Muestra> muestrasProcesadasPersona = persona.getMuestrasProcesadas();
         muestrasProcesadasPersona.add(muestraProcesada);
+
+        Informe informe = new Informe(estado,comentario);
         logger.info("La muestra se ha procesado correctamente.");
+        return informe;
 
     }
 

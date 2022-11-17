@@ -3,6 +3,7 @@ package edu.upc.dsa.Services;
 import edu.upc.dsa.Domain.Covid19Manager;
 import edu.upc.dsa.Domain.Entity.Exceptions.*;
 import edu.upc.dsa.Domain.Entity.Info.PersonaInfo;
+import edu.upc.dsa.Domain.Entity.Laboratorio;
 import edu.upc.dsa.Domain.Entity.Muestra;
 import edu.upc.dsa.Infraestructure.Covid19ManagerImpl;
 import io.swagger.annotations.Api;
@@ -82,11 +83,11 @@ public class Services {
             @ApiResponse(code = 201, message = "Exitoso"),
             @ApiResponse(code = 400, message = "El laboratorio no existe"),
     })
-    @Path("/muestra/{idLab}")
+    @Path("/muestra/{idLab}/{estado}/{comentario}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response procesarMuestra(@PathParam("idLab") String idLab) {
+    public Response procesarMuestra(@PathParam("idLab") String idLab, @PathParam("estado") String estado, @PathParam("comentario") String comentario) {
         try {
-            this.manager.procesarMuestra(idLab);
+            this.manager.procesarMuestra(idLab,estado,comentario);
         } catch (LabNoExiste e) {
             return Response.status(403).build();
         }
@@ -109,6 +110,23 @@ public class Services {
         }catch (PersonaNoExiste e){
             return Response.status(400).build();
         }
+
+    }
+
+    @GET
+    @ApiOperation(value = "Lista de clinicos", notes = "Lista Clinicos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Exitoso",response = Laboratorio.class, responseContainer="List")
+
+    })
+    @Path("/laboratorios")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listaLabs(){
+
+        List<Laboratorio> lista = this.manager.listaLabs();
+        GenericEntity<List<Laboratorio>> entity = new GenericEntity<List<Laboratorio>>(lista) {};
+        return Response.status(200).entity(entity).build();
+
 
     }
 }

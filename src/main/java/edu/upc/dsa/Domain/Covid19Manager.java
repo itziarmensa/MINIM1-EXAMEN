@@ -1,6 +1,7 @@
 package edu.upc.dsa.Domain;
 
 import edu.upc.dsa.Domain.Entity.Exceptions.*;
+import edu.upc.dsa.Domain.Entity.Info.Informe;
 import edu.upc.dsa.Domain.Entity.Laboratorio;
 import edu.upc.dsa.Domain.Entity.Muestra;
 import edu.upc.dsa.Domain.Entity.Persona;
@@ -17,7 +18,7 @@ public interface Covid19Manager {
 
     public void extraerMuestra(Muestra muestra) throws PersonaNoExiste, LabNoExiste, MuestraYaExiste;
 
-    public void procesarMuestra(String idLab) throws LabNoExiste;
+    public Informe procesarMuestra(String idLab, String estado, String comentario) throws LabNoExiste;
 
     public List<Muestra> listaMuestrasPersonaProcesadas(String idUsuario) throws PersonaNoExiste;
 

@@ -3,6 +3,7 @@ package edu.upc.dsa;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import edu.upc.dsa.Domain.Covid19Manager;
 import edu.upc.dsa.Domain.Entity.Exceptions.*;
+import edu.upc.dsa.Domain.Entity.Info.Informe;
 import edu.upc.dsa.Domain.Entity.Laboratorio;
 import edu.upc.dsa.Domain.Entity.Muestra;
 import edu.upc.dsa.Domain.Entity.Persona;
@@ -86,9 +87,13 @@ public class Covid19ManagerImplTest {
         Muestra muestra = lista.poll();
         this.manager.extraerMuestra(muestra);
         Assert.assertEquals(1,labo.getMuestrasPendientes().size());
-        this.manager.procesarMuestra("4327");
+        Informe informe = this.manager.procesarMuestra("4327", "KO", "Resultados malos");
         Assert.assertEquals(0,labo.getMuestrasPendientes().size());
         List<Persona> personas = this.manager.listPersonas();
+        Persona persona = personas.get(3);
+        Assert.assertEquals(1,persona.getMuestrasProcesadas().size());
+        Assert.assertEquals("KO",informe.getEstado());
+        Assert.assertEquals("Resultados malos",informe.getComentario());
 
     }
 
