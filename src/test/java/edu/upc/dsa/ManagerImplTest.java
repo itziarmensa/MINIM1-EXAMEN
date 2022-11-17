@@ -1,6 +1,6 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.Domain.Manager;
+import edu.upc.dsa.Domain.Covid19Manager;
 import edu.upc.dsa.Infraestructure.ManagerImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class ManagerImplTest {
 
-    Manager manager;
+    Covid19Manager manager;
 
     @Before
     public void setUp(){

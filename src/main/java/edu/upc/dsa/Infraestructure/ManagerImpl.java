@@ -1,16 +1,11 @@
 package edu.upc.dsa.Infraestructure;
 
-import edu.upc.dsa.Domain.Manager;
+import edu.upc.dsa.Domain.Covid19Manager;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class ManagerImpl implements Covid19Manager {
 
-public class ManagerImpl implements Manager {
-
-    private static Manager instance;
+    private static Covid19Manager instance;
 
     //protected List<ObjectShop> objects;
 
@@ -23,7 +18,7 @@ public class ManagerImpl implements Manager {
         //this.users = new HashMap<>();
     }
 
-    public static Manager getInstance() {
+    public static Covid19Manager getInstance() {
         if (instance==null) instance = new ManagerImpl();
         return instance;
     }

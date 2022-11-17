@@ -1,23 +1,16 @@
 package edu.upc.dsa.Services;
 
-import edu.upc.dsa.Domain.Manager;
+import edu.upc.dsa.Domain.Covid19Manager;
 import edu.upc.dsa.Infraestructure.ManagerImpl;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Api(value = "/*lo que sigui*", description = "Endpoint to *lo que sigui* Service")
 @Path("/*lo que sigui*")
 public class Services {
 
-    private Manager manager;
+    private Covid19Manager manager;
 
     public Services(){
         this.manager = ManagerImpl.getInstance();
