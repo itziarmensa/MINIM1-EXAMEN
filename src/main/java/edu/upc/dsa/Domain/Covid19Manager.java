@@ -17,7 +17,7 @@ public interface Covid19Manager {
 
     public void extraerMuestra(Muestra muestra) throws PersonaNoExiste, LabNoExiste, MuestraYaExiste;
 
-    public void procesarMuestra(String idLab) throws LabNoExiste, PersonaNoExiste;
+    public void procesarMuestra(String idLab) throws LabNoExiste;
 
     public List<Muestra> listaMuestrasPersonaProcesadas(String idUsuario) throws PersonaNoExiste;
 

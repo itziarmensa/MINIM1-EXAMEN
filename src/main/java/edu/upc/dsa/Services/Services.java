@@ -1,89 +1,114 @@
 package edu.upc.dsa.Services;
 
 import edu.upc.dsa.Domain.Covid19Manager;
+import edu.upc.dsa.Domain.Entity.Exceptions.*;
+import edu.upc.dsa.Domain.Entity.Info.PersonaInfo;
+import edu.upc.dsa.Domain.Entity.Muestra;
 import edu.upc.dsa.Infraestructure.Covid19ManagerImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
-@Api(value = "/*lo que sigui*", description = "Endpoint to *lo que sigui* Service")
-@Path("/*lo que sigui*")
+@Api(value = "/sistema", description = "Endpoint to Sistema Service")
+@Path("/sistema")
 public class Services {
 
     private Covid19Manager manager;
 
-    public Services(){
+    public Services() throws PersonaYaExiste, LabYaExiste, MuestraYaExiste {
         this.manager = Covid19ManagerImpl.getInstance();
 
         if(manager.size() == 0){
-            //this.manager.registerUser("Alba", "Roma Gómez", "23/11/2001", credentials1);
-            // ...
+            this.manager.añadirPersona("432746","Itziar","Mensa",20,"A");
+            this.manager.añadirPersona("3728865","Paula","Mensa",19,"B");
+            this.manager.añadirPersona("378238346","Monica","Minguito",49,"C");
+            this.manager.añadirPersona("3618235","Sara","Jimenez",36,"D");
 
-            //this.manager.addObject("Pa Bimbo", "un pa molt bo", 2.3);
-            // ...
+            this.manager.crearLab("4327873","Vall d'Hebron");
+            this.manager.crearLab("4327","Clínic");
+            this.manager.crearLab("54738","Hospital Igualada");
+            this.manager.crearLab("546326","Sant Joan de Déu");
+
+            this.manager.añadirMuestra("4873934629","4327873","3728865", "17/11/2022","4327");
+            this.manager.añadirMuestra("5214","4327","432746", "19/11/2022","546326");
         }
     }
 
-    //EXEMPLE POST == AFEGIR UNA COSA NOVA
-    /*@POST
-    @ApiOperation(value = "añadir un nuevo usuario", notes = "Añadir usuarios")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Exitoso", response= UsuarioInfo.class),
-            @ApiResponse(code = 409, message = "El usuario ya existe")
-    })
-    @Path("/juego")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response añadirUsuario(UsuarioInfo usuario){
-        try{
-            this.manager.añadirUsuario(usuario.getId(),usuario.getNombre(),usuario.getApellidos());
-        }catch(UsuarioYaExiste e){
-            return Response.status(409).entity(usuario).build();
-        }
-        return Response.status(201).entity(usuario).build();
-    }*/
 
-    //EXEMPLE PUT == MODIFICAR UNA COSA EXISTENT
-    /*@PUT
-    @ApiOperation(value = "iniciar partida", notes = "Iniciar Partida")
+    @POST
+    @ApiOperation(value = "añadir una nueva persona", notes = "Añadir persona")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Exitoso", response= PersonaInfo.class),
+            @ApiResponse(code = 409, message = "La persona ya existe")
+    })
+    @Path("/persona")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response añadirPersona(PersonaInfo persona){
+        try{
+            this.manager.añadirPersona(persona.getIdPersona(),persona.getNombrePersona(),persona.getApellidosPersona(),persona.getEdadPersona(),persona.getSaludPersona());
+        }catch(PersonaYaExiste e){
+            return Response.status(409).entity(persona).build();
+        }
+        return Response.status(201).entity(persona).build();
+    }
+
+    @PUT
+    @ApiOperation(value = "extraer muestra", notes = "Extraer Muestra")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Exitoso"),
-            @ApiResponse(code = 400, message = "El usuario o el juego no existen"),
-            @ApiResponse(code = 403, message = "El usuario está en otra partida")
+            @ApiResponse(code = 400, message = "La persona, el laboratorio o la muestra no existen"),
     })
-    @Path("/usuario/{usuarioId}/{juegoId}")
+    @Path("/muestra")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response iniciarPartida(@PathParam("usuarioId") String userId, @PathParam("juegoId") String juegoId) {
+    public Response extraerMuestra(Muestra muestra) {
         try {
-            this.manager.inicioPartida(userId, juegoId);
-        } catch (PartidaActiva e) {
+            this.manager.extraerMuestra(muestra);
+        } catch (PersonaNoExiste | LabNoExiste | MuestraYaExiste e) {
             return Response.status(403).build();
-        } catch (UsuarioNoExiste | JuegoNoExiste e) {
-            return Response.status(400).build();
         }
         return Response.status(201).build();
-    }*/
+    }
 
-    //EXEMPLE GET == OBTENIR ALGO DE ALGO JA CREAT
-    /*@GET
-    @ApiOperation(value = "Nivel actual de un usuario en una partida", notes = "Nivel Actual")
+    @PUT
+    @ApiOperation(value = "procesar muestra", notes = "Procesar Muestra")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Exitoso", responseContainer="List"),
-            @ApiResponse(code = 400, message = "El usuario no existe"),
-            @ApiResponse(code = 403, message = "El usuario no está en ninguna partida")
-
+            @ApiResponse(code = 201, message = "Exitoso"),
+            @ApiResponse(code = 400, message = "El laboratorio no existe"),
     })
-    @Path("/usuario/nivel/{usuarioId}")
+    @Path("/muestra/{idLab}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response nivelActual(@PathParam("usuarioId") String usuarioId){
+    public Response procesarMuestra(@PathParam("idLab") String idLab) {
         try {
-            List<String> lista = this.manager.nivelActual(usuarioId);
-            GenericEntity<List<String>> entity = new GenericEntity<List<String>>(lista) {};
-            return Response.status(200).entity(entity).build();
-        }catch (UsuarioNoExiste e){
-            return Response.status(400).build();
-        }catch (PartidaInactiva e){
+            this.manager.procesarMuestra(idLab);
+        } catch (LabNoExiste e) {
             return Response.status(403).build();
         }
+        return Response.status(201).build();
+    }
 
-    }*/
+    @GET
+    @ApiOperation(value = "Lista muestras procesadas de una persona", notes = "Lista Muestras")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Exitoso",response = Muestra.class, responseContainer="List")
+
+    })
+    @Path("/persona/{idPersona}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response nivelActual(@PathParam("idPersona") String idPersona){
+        try {
+            List<Muestra> lista = this.manager.listaMuestrasPersonaProcesadas(idPersona);
+            GenericEntity<List<Muestra>> entity = new GenericEntity<List<Muestra>>(lista) {};
+            return Response.status(200).entity(entity).build();
+        }catch (PersonaNoExiste e){
+            return Response.status(400).build();
+        }
+
+    }
 }

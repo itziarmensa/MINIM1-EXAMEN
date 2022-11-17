@@ -131,7 +131,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     }
 
     @Override
-    public void procesarMuestra(String idLab) throws LabNoExiste,PersonaNoExiste {
+    public void procesarMuestra(String idLab) throws LabNoExiste {
         logger.info("Procesando muestra ...");
         if(getLabById(idLab) == null){
             logger.error("El laboratorio no existe.");
