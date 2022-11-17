@@ -81,6 +81,19 @@ public class Covid19ManagerImpl implements Covid19Manager {
 
     }
 
+    @Override
+    public void añadirMuestra(String idMuestra, String idClinico, String idPersona, String fecha, String idEnvio) throws MuestraYaExiste {
+        logger.info("Intentando crear la muestra");
+        if(getMuestraById(idMuestra) != null){
+            logger.error("La muestra ya existe, cambia el id");
+            throw new MuestraYaExiste();
+        }
+        Muestra muestra = new Muestra(idMuestra,idClinico,idPersona,fecha,idEnvio);
+        this.muestras.add(muestra);
+        logger.info("Se ha creado correctamente");
+
+    }
+
     public Muestra getMuestraById(String idMuestra) {
         return this.muestras.stream()
                 .filter(x->idMuestra.equals(x.getIdMuestra()))
@@ -91,7 +104,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     @Override
     public void extraerMuestra(Muestra muestra) throws PersonaNoExiste,LabNoExiste, MuestraYaExiste {
         logger.info("Intentando extraer muestra del usuario "+muestra.getIdPersona()+"");
-        if(personaExisteId(muestra.getIdPersona())){
+        if(getPersonaById(muestra.getIdPersona()) == null){
             logger.error("La persona no existe.");
             throw new PersonaNoExiste();
         }
@@ -99,14 +112,13 @@ public class Covid19ManagerImpl implements Covid19Manager {
             logger.error("Escoge otro identificador, la muestra ya existe.");
             throw new MuestraYaExiste();
         }
-        if(getLabById(muestra.getIdClinico()) != null | getLabById(muestra.getIdEnvio()) != null){
+        if(getLabById(muestra.getIdClinico()) == null | getLabById(muestra.getIdEnvio()) == null){
             logger.error("El laboratorio no existe.");
             throw new LabNoExiste();
         }
         Laboratorio lab = getLabById(muestra.getIdEnvio());
         Queue<Muestra> muestrasPendientes = lab.getMuestrasPendientes();
         muestrasPendientes.add(muestra);
-        this.muestras.add(muestra);
         logger.info("La muestra se ha enviado al laboratorio: "+muestra.getIdEnvio()+"");
 
     }
@@ -121,7 +133,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     @Override
     public void procesarMuestra(String idLab) throws LabNoExiste,PersonaNoExiste {
         logger.info("Procesando muestra ...");
-        if(getLabById(idLab) != null){
+        if(getLabById(idLab) == null){
             logger.error("El laboratorio no existe.");
             throw new LabNoExiste();
         }
@@ -139,7 +151,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     @Override
     public List<Muestra> listaMuestrasPersonaProcesadas(String idUsuario) throws PersonaNoExiste {
         logger.info("Obteniendo lista de muestras procesadas del usuario: "+idUsuario+"");
-        if(personaExisteId(idUsuario)){
+        if(getPersonaById(idUsuario) == null){
             logger.error("La persona no existe.");
             throw new PersonaNoExiste();
         }
@@ -153,6 +165,21 @@ public class Covid19ManagerImpl implements Covid19Manager {
     }
     public int numLabs(){
         return this.labs.size();
+    }
+
+    public int numMuestras(){
+        return this.muestras.size();
+    }
+
+    public Queue<Muestra> listMuestras(){
+        return muestras;
+    }
+    public List<Persona> listPersonas(){
+        List<Persona> pers = new ArrayList<>(this.personas.values());
+        return pers;
+    }
+    public List<Laboratorio> listaLabs(){
+        return labs;
     }
 
 }
