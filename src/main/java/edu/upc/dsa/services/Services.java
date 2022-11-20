@@ -3,6 +3,7 @@ package edu.upc.dsa.services;
 import edu.upc.dsa.domain.Covid19Manager;
 import edu.upc.dsa.domain.entity.exceptions.*;
 import edu.upc.dsa.domain.entity.info.Informe;
+import edu.upc.dsa.domain.entity.info.LabInfo;
 import edu.upc.dsa.domain.entity.info.PersonaInfo;
 import edu.upc.dsa.domain.entity.Laboratorio;
 import edu.upc.dsa.domain.entity.Muestra;
@@ -60,6 +61,23 @@ public class Services {
             return Response.status(409).entity(persona).build();
         }
         return Response.status(201).entity(persona).build();
+    }
+
+    @POST
+    @ApiOperation(value = "crear un nuevo laboratorio", notes = "Crear lab")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Exitoso", response= LabInfo.class),
+            @ApiResponse(code = 409, message = "El laboratorio ya existe")
+    })
+    @Path("/laboratorio")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response crearLab(LabInfo labInfo){
+        try{
+            this.manager.crearLab(labInfo.getIdLab(),labInfo.getNombreLab());
+        }catch(LabYaExiste e){
+            return Response.status(409).entity(labInfo).build();
+        }
+        return Response.status(201).entity(labInfo).build();
     }
 
     @PUT
