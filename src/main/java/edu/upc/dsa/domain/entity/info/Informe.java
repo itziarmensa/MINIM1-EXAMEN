@@ -1,12 +1,14 @@
 package edu.upc.dsa.domain.entity.info;
 
 public class Informe {
+    String idMuestra;
     String estado;
     String comentario;
 
     public Informe(){}
 
-    public Informe(String estado, String comentario) {
+    public Informe(String idMuestra, String estado, String comentario) {
+        this.idMuestra = idMuestra;
         this.estado = estado;
         this.comentario = comentario;
     }
@@ -25,5 +27,13 @@ public class Informe {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public String getIdMuestra() {
+        return idMuestra;
+    }
+
+    public void setIdMuestra(String idMuestra) {
+        this.idMuestra = idMuestra;
     }
 }

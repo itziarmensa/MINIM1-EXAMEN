@@ -86,20 +86,33 @@ public class Covid19ManagerImplTest {
         Muestra muestra = lista.poll();
         this.manager.extraerMuestra(muestra);
         Assert.assertEquals(1,labo.getMuestrasPendientes().size());
-        Informe informe = this.manager.procesarMuestra("4327", "KO", "Resultados malos");
+
+        this.manager.procesarMuestra("4327", "KO", "Resultados malos");
         Assert.assertEquals(0,labo.getMuestrasPendientes().size());
         List<Persona> personas = this.manager.listPersonas();
         Persona persona = personas.get(3);
         Assert.assertEquals(1,persona.getMuestrasProcesadas().size());
-        Assert.assertEquals("KO",informe.getEstado());
-        Assert.assertEquals("Resultados malos",informe.getComentario());
+        List<Informe> muestrasProcesadas = persona.getMuestrasProcesadas();
+        Informe informeProc = muestrasProcesadas.get(0);
+        Assert.assertEquals("4873934629",informeProc.getIdMuestra());
+        Assert.assertEquals("KO",informeProc.getEstado());
+        Assert.assertEquals("Resultados malos",informeProc.getComentario());
 
     }
 
     @Test
-    public void testListMuestrasProcesadasUsuario() throws PersonaNoExiste {
-        List<Muestra> procesadas = this.manager.listaMuestrasPersonaProcesadas("3728865");
+    public void testListMuestrasProcesadasUsuario() throws PersonaNoExiste, LabNoExiste, MuestraYaExiste {
+        List<Informe> procesadas = this.manager.listaMuestrasPersonaProcesadas("3728865");
         Assert.assertEquals(0, procesadas.size());
+
+        Queue<Muestra> lista = this.manager.listMuestras();
+        Muestra muestra = lista.poll();
+        this.manager.extraerMuestra(muestra);
+        this.manager.procesarMuestra("4327", "KO", "Resultados malos");
+        Informe informeProc = procesadas.get(0);
+        Assert.assertEquals("4873934629", informeProc.getIdMuestra());
+        Assert.assertEquals("KO",informeProc.getEstado());
+        Assert.assertEquals("Resultados malos",informeProc.getComentario());
     }
 
 }

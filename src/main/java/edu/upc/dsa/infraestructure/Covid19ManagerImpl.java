@@ -132,7 +132,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
     }
 
     @Override
-    public Informe procesarMuestra(String idLab, String estado, String comentario) throws LabNoExiste {
+    public void procesarMuestra(String idLab, String estado, String comentario) throws LabNoExiste {
         logger.info("Procesando muestra ...");
         if(getLabById(idLab) == null){
             logger.error("El laboratorio no existe.");
@@ -143,17 +143,16 @@ public class Covid19ManagerImpl implements Covid19Manager {
         Muestra muestraProcesada = muetrasPendientes.poll();
 
         Persona persona = getPersonaById(muestraProcesada.getIdPersona());
-        List<Muestra> muestrasProcesadasPersona = persona.getMuestrasProcesadas();
-        muestrasProcesadasPersona.add(muestraProcesada);
+        List<Informe> muestrasProcesadasPersona = persona.getMuestrasProcesadas();
+        Informe informe = new Informe(muestraProcesada.getIdMuestra(),estado,comentario);
+        muestrasProcesadasPersona.add(informe);
 
-        Informe informe = new Informe(estado,comentario);
         logger.info("La muestra se ha procesado correctamente.");
-        return informe;
 
     }
 
     @Override
-    public List<Muestra> listaMuestrasPersonaProcesadas(String idUsuario) throws PersonaNoExiste {
+    public List<Informe> listaMuestrasPersonaProcesadas(String idUsuario) throws PersonaNoExiste {
         logger.info("Obteniendo lista de muestras procesadas del usuario: "+idUsuario+"");
         if(getPersonaById(idUsuario) == null){
             logger.error("La persona no existe.");

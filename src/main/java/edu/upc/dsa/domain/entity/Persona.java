@@ -1,5 +1,7 @@
 package edu.upc.dsa.domain.entity;
 
+import edu.upc.dsa.domain.entity.info.Informe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class Persona {
     String apellidosPersona;
     int edadPersona;
     String saludPersona;
-    List<Muestra> muestrasProcesadas;
+    List<Informe> muestrasProcesadas;
 
     public Persona(){this.muestrasProcesadas = new ArrayList<>();}
 
@@ -63,11 +65,11 @@ public class Persona {
         this.saludPersona = saludPersona;
     }
 
-    public List<Muestra> getMuestrasProcesadas() {
+    public List<Informe> getMuestrasProcesadas() {
         return muestrasProcesadas;
     }
 
-    public void setMuestrasProcesadas(List<Muestra> muestrasProcesadas) {
+    public void setMuestrasProcesadas(List<Informe> muestrasProcesadas) {
         this.muestrasProcesadas = muestrasProcesadas;
     }
 }

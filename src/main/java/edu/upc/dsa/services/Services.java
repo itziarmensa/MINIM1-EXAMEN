@@ -2,6 +2,7 @@ package edu.upc.dsa.services;
 
 import edu.upc.dsa.domain.Covid19Manager;
 import edu.upc.dsa.domain.entity.exceptions.*;
+import edu.upc.dsa.domain.entity.info.Informe;
 import edu.upc.dsa.domain.entity.info.PersonaInfo;
 import edu.upc.dsa.domain.entity.Laboratorio;
 import edu.upc.dsa.domain.entity.Muestra;
@@ -10,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
@@ -104,8 +106,8 @@ public class Services {
     @Produces(MediaType.APPLICATION_JSON)
     public Response nivelActual(@PathParam("idPersona") String idPersona){
         try {
-            List<Muestra> lista = this.manager.listaMuestrasPersonaProcesadas(idPersona);
-            GenericEntity<List<Muestra>> entity = new GenericEntity<List<Muestra>>(lista) {};
+            List<Informe> lista = this.manager.listaMuestrasPersonaProcesadas(idPersona);
+            GenericEntity<List<Informe>> entity = new GenericEntity<List<Informe>>(lista) {};
             return Response.status(200).entity(entity).build();
         }catch (PersonaNoExiste e){
             return Response.status(400).build();
