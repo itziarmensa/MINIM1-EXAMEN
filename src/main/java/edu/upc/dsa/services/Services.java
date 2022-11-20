@@ -40,8 +40,6 @@ public class Services {
             this.manager.crearLab("54738","Hospital Igualada");
             this.manager.crearLab("546326","Sant Joan de Déu");
 
-            this.manager.añadirMuestra("4873934629","4327873","3728865", "17/11/2022","4327");
-            this.manager.añadirMuestra("5214","4327","432746", "19/11/2022","546326");
         }
     }
 
