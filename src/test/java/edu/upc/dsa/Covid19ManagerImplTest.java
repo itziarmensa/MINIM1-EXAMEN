@@ -1,12 +1,11 @@
 package edu.upc.dsa;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import edu.upc.dsa.Domain.Covid19Manager;
-import edu.upc.dsa.Domain.Entity.Exceptions.*;
-import edu.upc.dsa.Domain.Entity.Info.Informe;
-import edu.upc.dsa.Domain.Entity.Laboratorio;
-import edu.upc.dsa.Domain.Entity.Muestra;
-import edu.upc.dsa.Domain.Entity.Persona;
+import edu.upc.dsa.domain.Covid19Manager;
+import edu.upc.dsa.domain.entity.exceptions.*;
+import edu.upc.dsa.domain.entity.info.Informe;
+import edu.upc.dsa.domain.entity.Laboratorio;
+import edu.upc.dsa.domain.entity.Muestra;
+import edu.upc.dsa.domain.entity.Persona;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +20,7 @@ public class Covid19ManagerImplTest {
 
     @Before
     public void setUp() throws PersonaYaExiste, LabYaExiste, MuestraYaExiste {
-        this.manager = new edu.upc.dsa.Infraestructure.Covid19ManagerImpl();
+        this.manager = new edu.upc.dsa.infraestructure.Covid19ManagerImpl();
 
         this.manager.añadirPersona("432746","Itziar","Mensa",20,"A");
         this.manager.añadirPersona("3728865","Paula","Mensa",19,"B");

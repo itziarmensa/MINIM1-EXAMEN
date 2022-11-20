@@ -1,11 +1,11 @@
-package edu.upc.dsa.Services;
+package edu.upc.dsa.services;
 
-import edu.upc.dsa.Domain.Covid19Manager;
-import edu.upc.dsa.Domain.Entity.Exceptions.*;
-import edu.upc.dsa.Domain.Entity.Info.PersonaInfo;
-import edu.upc.dsa.Domain.Entity.Laboratorio;
-import edu.upc.dsa.Domain.Entity.Muestra;
-import edu.upc.dsa.Infraestructure.Covid19ManagerImpl;
+import edu.upc.dsa.domain.Covid19Manager;
+import edu.upc.dsa.domain.entity.exceptions.*;
+import edu.upc.dsa.domain.entity.info.PersonaInfo;
+import edu.upc.dsa.domain.entity.Laboratorio;
+import edu.upc.dsa.domain.entity.Muestra;
+import edu.upc.dsa.infraestructure.Covid19ManagerImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

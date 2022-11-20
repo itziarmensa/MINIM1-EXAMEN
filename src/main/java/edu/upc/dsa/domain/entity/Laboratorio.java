@@ -1,8 +1,6 @@
-package edu.upc.dsa.Domain.Entity;
+package edu.upc.dsa.domain.entity;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class Laboratorio {

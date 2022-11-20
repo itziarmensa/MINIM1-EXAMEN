@@ -1,4 +1,4 @@
-package edu.upc.dsa.Domain.Entity.Info;
+package edu.upc.dsa.domain.entity.info;
 
 public class PersonaInfo {
     String idPersona;

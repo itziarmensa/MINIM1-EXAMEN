@@ -1,10 +1,10 @@
-package edu.upc.dsa.Domain;
+package edu.upc.dsa.domain;
 
-import edu.upc.dsa.Domain.Entity.Exceptions.*;
-import edu.upc.dsa.Domain.Entity.Info.Informe;
-import edu.upc.dsa.Domain.Entity.Laboratorio;
-import edu.upc.dsa.Domain.Entity.Muestra;
-import edu.upc.dsa.Domain.Entity.Persona;
+import edu.upc.dsa.domain.entity.exceptions.*;
+import edu.upc.dsa.domain.entity.info.Informe;
+import edu.upc.dsa.domain.entity.Laboratorio;
+import edu.upc.dsa.domain.entity.Muestra;
+import edu.upc.dsa.domain.entity.Persona;
 
 import java.util.List;
 import java.util.Queue;

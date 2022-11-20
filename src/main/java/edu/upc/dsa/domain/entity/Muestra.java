@@ -1,4 +1,4 @@
-package edu.upc.dsa.Domain.Entity;
+package edu.upc.dsa.domain.entity;
 
 public class Muestra {
     String idMuestra;
